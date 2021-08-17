@@ -34,7 +34,7 @@ services:
   front:
     build: ./front
     volumes:
-      - ./fornt/app
+      - ./fornt:/app
     ports:
       - "8000:8000"
     # -itオプション
