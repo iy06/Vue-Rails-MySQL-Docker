@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  web:
+    build: ./api
+    depends_on:
+      - db
+    volumes:
+      - ./api:/app
+      - bundle:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+    command: bundle exec rails s -b "0.0.0.0"
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: passowrd
+
+  front:
+    build: ./front
+    volumes:
+      - ./fornt/app
+    ports:
+      - "8000:8000"
+    tty: true
+    stdin_open: true
+    command: npm run serve
+
+volumes:
+  db_data:
+  bundle:
