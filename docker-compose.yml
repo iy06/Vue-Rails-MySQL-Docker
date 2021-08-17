@@ -1,25 +1,33 @@
+# Composeファイルフォーマットを3に指定
 version: "3"
 
 services:
   web:
     build: ./api
+    # 依存関係を表すdepends_onにdbを指定
     depends_on:
       - db
     volumes:
       - ./api:/app
       - bundle:/usr/local/bundle
+    # portの設定
     ports:
       - "3000:3000"
+    # -itオプション
     tty: true
     stdin_open: true
+    # デフォルトコマンドの設定。
     command: bundle exec rails s -b "0.0.0.0"
 
   db:
+    # コンテナを起動させるimageをmysql:5.7に指定する。
     image: mysql:5.7
     volumes:
       - db_data:/var/lib/mysql
+    # portの設定
     ports:
       - "3306:3306"
+    # 環境変数を設定する。
     environment:
       MYSQL_ROOT_PASSWORD: passowrd
 
@@ -29,10 +37,13 @@ services:
       - ./fornt/app
     ports:
       - "8000:8000"
+    # -itオプション
     tty: true
     stdin_open: true
+    # デフォルトコマンドの設定。
     command: npm run serve
 
+# MySQLとbundleはマウントし永続化する。
 volumes:
   db_data:
   bundle:
