@@ -36,7 +36,7 @@ services:
     volumes:
       - ./front:/app
     ports:
-      - "8000:8000"
+      - "8080:8080"
     # -itオプション
     tty: true
     stdin_open: true
